@@ -8,7 +8,9 @@ datasource db {
 }
 
 model users {
-  id       Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   login    String @unique
   password String
+  firstName String
+  lastName String
 }

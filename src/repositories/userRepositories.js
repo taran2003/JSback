@@ -2,7 +2,7 @@ const {PrismaClient} = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const verifyLogin = async ({login,password}) => {
+const getByLogin = async ({login}) => {
 
         const user = await prisma.users.findUnique({
             where: {
@@ -12,7 +12,7 @@ const verifyLogin = async ({login,password}) => {
         return user;
 }
 
-const verifyId = async (id) => {
+const getById = async (id) => {
     const user = await prisma.users.findUnique({
         where: {
             id
@@ -21,25 +21,31 @@ const verifyId = async (id) => {
     return user;
 }
 
-const write = async ({login, password}) => {
+const write = async ({login, password, firstName, lastName}) => {
     let user={
         login: login,
-        password: password
+        password: password,
+        firstName: firstName,
+        lastName: lastName
+
     };
-    const createUser = await  prisma.users.create({data:user});
+    try {
+        const createUser = await prisma.users.create({data: user});
+    } catch(e) {
+        throw e;
+    }
 }
 
-const update = async ({login,newLogin,password,newPassword}) => {
-    console.log(!newLogin);
-    if(!newLogin)
-    {
-        const deliteUser = await prisma.users.delete({
-            where:{
-                login
-            },
-        });
-        return
-    }
+const deleteUser = async (login) =>
+{
+    const deleteUser = await prisma.users.delete({
+        where:{
+            login
+        },
+    });
+}
+
+const update = async ({login, newLogin, password, newPassword}) => {
     const updateUser = await prisma.users.upsert({
         where:{
             login
@@ -61,8 +67,9 @@ const disconnect = async () =>{
 
 module.exports = {
     write,
-    verifyLogin,
-    verifyId,
+    getByLogin,
+    getById,
     update,
-    disconnect
+    disconnect,
+    deleteUser
 }
