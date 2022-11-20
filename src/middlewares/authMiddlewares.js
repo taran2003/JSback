@@ -1,23 +1,21 @@
 const jwt = require('../helper/jwt')
 const {AuthError} = require('../errors/authErrors')
+const error = require("../constants/errorsConstants")
 
 const accessTokenKey = process.env.JWT_ACCESS_KEY;
 
 const tokenCheck = (req, res, next) => {
     try {
-        const {accessToken, refreshToken} = req.headers['Authorization'];
+        const {accessToken} = req.body;
         const {id} = jwt.verifyToken(accessToken, accessTokenKey);
         req.body.userId = id;
         next();
     } catch (e) {
-        res.status(401).send("AccessToken is not valid");
+        res.status(error.errorsStatus.Unauthorized).send(error.errorsMessages.Unauthorized);
     }
 }
 
 function errorHandler(err, req, res, next) {
-    if (res.headersSent) {
-        return next(err);
-    }
     if (!(err instanceof AuthError)) {
         next(err);
         return;

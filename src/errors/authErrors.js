@@ -3,7 +3,7 @@ const {errorsMessages, errorsNames, errorsStatus} = require('../constants/errors
 class AuthError extends Error {
     status;
 
-    constructor(message,name, status) {
+    constructor(message, name, status) {
         super(message);
         this.name = name;
         this.status = status;
@@ -12,19 +12,25 @@ class AuthError extends Error {
 
 class UserNotFoundError extends AuthError {
     constructor() {
-        super(errorsMessages.userNotFound,errorsNames.userNotFound,errorsStatus.userNotFound);
+        super(errorsMessages.userNotFound, errorsNames.userNotFound, errorsStatus.userNotFound);
     }
 }
 
 class InvalidPasswordError extends AuthError {
     constructor() {
-        super(errorsMessages.invalidPassword,errorsNames.invalidPassword,errorsStatus.conflict);
+        super(errorsMessages.invalidPassword, errorsNames.invalidPassword, errorsStatus.conflict);
     }
 }
 
 class InvalidLoginError extends AuthError {
     constructor() {
-        super(errorsMessages.invalidLogin,errorsNames.invalidLogin,errorsStatus.conflict);
+        super(errorsMessages.invalidLogin, errorsNames.invalidLogin, errorsStatus.conflict);
+    }
+}
+
+class AccessError extends AuthError {
+    constructor() {
+        super(errorsMessages.accessError,errorsNames.accessError,errorsStatus.accessError);
     }
 }
 
@@ -33,5 +39,6 @@ module.exports = {
     UserNotFoundError,
     InvalidPasswordError,
     InvalidLoginError,
-    AuthError
+    AuthError,
+    AccessError
 }

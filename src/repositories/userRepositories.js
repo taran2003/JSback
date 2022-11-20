@@ -12,10 +12,10 @@ const getByLogin = async ({login}) => {
         return user;
 }
 
-const getById = async (id) => {
+const getById = async ({id}) => {
     const user = await prisma.users.findUnique({
         where: {
-            id
+            id: id
         }
     });
     return user;
@@ -45,18 +45,16 @@ const deleteUser = async (login) =>
     });
 }
 
-const update = async ({login, newLogin, password, newPassword}) => {
-    const updateUser = await prisma.users.upsert({
+const update = async ({user, updatedUser}) => {
+    const updateUser = await prisma.users.update({
         where:{
-            login
+            login : user.login
         },
-        update:{
-            login : newLogin,
-            password : newPassword
-        },
-        create:{
-            login:newLogin,
-            password
+        data:{
+            login : updatedUser.login,
+            password : updatedUser.password,
+            firstName : updatedUser.firstName,
+            lastName : updatedUser.lastName,
         }
     });
 }
