@@ -17,7 +17,6 @@ const update = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
     const {id, accessToken, refreshToken, login} = req.body;
-    console.log(id)
     try {
         await userServices.deleteUser({id, login, accessToken});
         res.send("successes");

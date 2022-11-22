@@ -2,7 +2,6 @@ const {Joi, Segments} = require("celebrate")
 
 const update = {
     [Segments.BODY]: Joi.object({
-        userId: Joi.number().integer(),
         id: Joi.number().integer(),
         accessToken: Joi.string().required(),
         refreshToken: Joi.string().required(),
@@ -15,10 +14,9 @@ const update = {
 
 const deleteUser = {
     [Segments.BODY]: Joi.object({
-        userId: Joi.number().integer(),
         accessToken: Joi.string().required(),
         refreshToken: Joi.string().required(),
-        id: Joi.number().integer(),
+        id: Joi.number().integer().required(),
         login: Joi.string().required()
     })
 }

@@ -37,7 +37,6 @@ const rewriteUser = async ({id, accessToken, login, password, firstName, lastNam
 
 const deleteUser = async ({id, login, accessToken}) => {
     try {
-        console.log(id);
         await checkAccess({id, accessToken});
         await userRepositories.deleteUser(login)
     } catch (e) {
@@ -48,7 +47,6 @@ const deleteUser = async ({id, login, accessToken}) => {
 const checkAccess = async ({id, accessToken}) => {
     const tokenId = verifyToken(accessToken, accessTokenKey);
     const userById = await userRepositories.getById({id:tokenId.id});
-    console.log(userById.id+" "+id);
     if (userById.id != id) {
         throw new AccessError();
     }

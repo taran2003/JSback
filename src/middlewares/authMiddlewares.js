@@ -8,7 +8,6 @@ const tokenCheck = (req, res, next) => {
     try {
         const {accessToken} = req.body;
         const {id} = jwt.verifyToken(accessToken, accessTokenKey);
-        req.body.userId = id;
         next();
     } catch (e) {
         res.status(error.errorsStatus.Unauthorized).send(error.errorsMessages.Unauthorized);
