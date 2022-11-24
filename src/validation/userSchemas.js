@@ -21,7 +21,15 @@ const deleteUser = {
     })
 }
 
+const getUser = {
+    [Segments.BODY]: Joi.object({
+        accessToken: Joi.string().required(),
+        login: Joi.string().required()
+    })
+}
+
 module.exports = {
     update,
-    deleteUser
+    deleteUser,
+    getUser
 }

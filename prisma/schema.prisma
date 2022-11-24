@@ -8,9 +8,19 @@ datasource db {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
-  login    String @unique
-  password String
+  id        Int    @id @default(autoincrement())
+  login     String @unique
+  password  String
   firstName String
-  lastName String
+  lastName  String
+  posts     Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  text      String
+  imgSours  String
+  authorId  Int
+  author    users    @relation(fields: [authorId], references: [id])
 }

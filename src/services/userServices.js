@@ -9,7 +9,7 @@ const rewriteUser = async ({id, accessToken, login, password, firstName, lastNam
     try {
         await checkAccess({id, accessToken});
         const tokenId = verifyToken(accessToken, accessTokenKey);
-        const user = await userRepositories.getById({id:tokenId.id});
+        const user = await userRepositories.getById({id: tokenId.id});
         const updatedUser = {
             login: user.login,
             password: user.password,
@@ -46,13 +46,22 @@ const deleteUser = async ({id, login, accessToken}) => {
 
 const checkAccess = async ({id, accessToken}) => {
     const tokenId = verifyToken(accessToken, accessTokenKey);
-    const userById = await userRepositories.getById({id:tokenId.id});
-    if (userById.id != id) {
+    const userById = await userRepositories.getById({id: tokenId.id});
+    if (userById.id !== id) {
         throw new AccessError();
+    }
+}
+
+const getUser = async ({login}) => {
+    try {
+        return await userRepositories.getByLogin({login});
+    } catch (e) {
+        throw e;
     }
 }
 
 module.exports = {
     rewriteUser,
-    deleteUser
+    deleteUser,
+    getUser
 };

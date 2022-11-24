@@ -26,7 +26,18 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const getUser = async (req, res, next) => {
+    const {login} = req.body;
+    try{
+        res.send(await userServices.getUser({login}));
+    } catch (e) {
+        next(e)
+        return;
+    }
+}
+
 module.exports = {
     update,
-    deleteUser
+    deleteUser,
+    getUser
 }
