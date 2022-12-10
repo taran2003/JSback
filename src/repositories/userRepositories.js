@@ -26,7 +26,8 @@ const write = async ({login, password, firstName, lastName}) => {
         login: login,
         password: password,
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
+        //posts: Post[]
 
     };
     try {

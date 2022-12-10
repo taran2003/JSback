@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {login, refresh, register} = require("../controllers/authController");
-const {Joi, Segments, celebrate} = require("celebrate")
+const {celebrate} = require("celebrate")
 const {errorHandler} = require('../middlewares/authMiddlewares')
 const schemes = require('../validation/authSchemas')
 

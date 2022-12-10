@@ -2,7 +2,6 @@ const authServices = require("../services/authServices");
 const userServices = require('../services/userServices');
 const userRepositories = require('../repositories/userRepositories')
 
-//celebrate для обработки ошибок
 const login = async (req, res, next) => {
     const {login, password} = req.body;
     try {
@@ -21,7 +20,7 @@ const register = async (req, res, next) => {
         next(e);
         return;
     }
-    res.send({login, password, firstName, lastName});
+    res.send(true);
 };
 
 const refresh = (req, res) => {
