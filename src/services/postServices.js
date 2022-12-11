@@ -12,19 +12,42 @@ const add = async ({ accessToken, uuid, file, text }) => {
     await repositories.create({ user, imgSours, text })
 }
 
-//todo сортировка по дате
 const getPost = async ({ accessToken }) => {
     const tokenId = verifyToken(accessToken, accessTokenKey);
     const user = await getById({ id: tokenId.id });
-    return (await repositories.getByUserId({ user }));
+    const posts = await repositories.getByUserId({ user });
+    const data = {
+        user,
+        posts
+    }
+    return (data);
 }
 
-const deletePost = async ({postId}) => {
-    await repositories.deletePost({id:postId});
+const getAll = async () => {
+    const posts = await repositories.getAll()
+    for (let i = 0; i < posts.length; i++) {
+        let user = await getById({ id: posts[i].authorId })
+        if (user.id === posts[i].authorId) {
+            user = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }
+            posts[i]={
+                ...posts[i],
+                user
+            }
+        }
+    }
+    return (posts);
+}
+
+const deletePost = async ({ postId }) => {
+    await repositories.deletePost({ id: postId });
 }
 
 module.exports = {
     add,
     getPost,
+    getAll,
     deletePost,
 }

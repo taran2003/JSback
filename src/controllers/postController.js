@@ -16,6 +16,10 @@ const getPost = async (req, res) => {
     res.send(await services.getPost({ accessToken }));
 }
 
+const getAll = async (req, res) => {
+    res.send(await services.getAll());
+}
+
 const deletePost = async (req,res) => {
     const {postId} = req.body;
     await services.deletePost({postId});
@@ -26,5 +30,6 @@ const deletePost = async (req,res) => {
 module.exports = {
     add,
     getPost,
+    getAll,
     deletePost
 }

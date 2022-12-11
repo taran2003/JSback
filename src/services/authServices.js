@@ -24,7 +24,12 @@ const login = async ({login, password}) => {
         if (!await argon2.verify(user.password, password)) {
             throw new error.InvalidPasswordError()
         }
-        return createTokens({id: user.id})
+        data = createTokens({id: user.id});
+        data = {
+            ...data,
+            user
+        };
+        return data
     } catch (e) {
         throw e
     }
