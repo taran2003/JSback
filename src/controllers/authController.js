@@ -20,7 +20,7 @@ const register = async (req, res, next) => {
         next(e);
         return;
     }
-    res.send(true);
+    res.status(200).send();
 };
 
 const refresh = (req, res) => {

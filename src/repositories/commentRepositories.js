@@ -1,17 +1,16 @@
 const { PrismaClient } = require("@prisma/client");
-const fs = require('fs/promises');
 
 const prisma = new PrismaClient();
 
-const create = async ({ user, imgSours, text }) => {
-    let post = {
+const create = async ({ authorId, postId, text }) => {
+    let comment = {
         createdAt: new Date(),
-        text: text,
-        imgSours: imgSours,
-        authorId: user.id,
+        text: text.text,
+        postId: postId,
+        authorId: authorId,
     };
     try {
-        const createPost = await prisma.post.create({ data: post });
+        const createComment = await prisma.comment.create({ data: comment });
     } catch (e) {
         throw e;
     }
@@ -19,22 +18,38 @@ const create = async ({ user, imgSours, text }) => {
 
 const getById = async ({ id }) => {
     try {
-        const post = await prisma.post.findUnique({
+        const post = await prisma.comment.findMany({
             where: {
                 id: id
             }
         });
         return post;
     } catch (error) {
-        throw error
+        throw (error);
     }
 }
 
 const getByUserId = async ({ user }) => {
     try {
-        const posts = await prisma.post.findMany({
+        const posts = await prisma.comment.findMany({
             where: {
                 authorId: user.id
+            },
+            orderBy: [{
+                createdAt: 'desc'
+            }]
+        });
+        return posts;
+    } catch (error) {
+        throw (error)
+    }
+}
+
+const getByPostId = async ({ postId }) => {
+    try {
+        const posts = await prisma.comment.findMany({
+            where: {
+                postId: postId
             },
             orderBy: [{
                 createdAt: 'desc'
@@ -46,24 +61,9 @@ const getByUserId = async ({ user }) => {
     }
 }
 
-const getAll = async () => {
-    try {
-        const posts = await prisma.post.findMany({
-            orderBy: [{
-                createdAt: 'desc'
-            }]
-        });
-        return posts;
-    } catch (error) {
-        throw error;
-    }
-}
-
 const deletePost = async ({ id }) => {
     try {
-        const post = await getById({ id });
-        await fs.unlink('D:\\modernPrograming\\JSback\\image\\' + post[0].imgSours);
-        const deletePost = await prisma.post.delete({
+        const deletePost = await prisma.comment.delete({
             where: {
                 id
             },
@@ -76,7 +76,7 @@ const deletePost = async ({ id }) => {
 module.exports = {
     create,
     getByUserId,
-    getAll,
+    getByPostId,
     getById,
     deletePost,
 }

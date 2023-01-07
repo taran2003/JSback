@@ -1,10 +1,10 @@
 const {Joi, Segments} = require("celebrate")
 
-const getPost = {
+const getByPostId = {
     [Segments.BODY]: Joi.object({
         accessToken: Joi.string().required(),
-        id: Joi.number().integer(),
-        refreshToken: Joi.string().required()
+        refreshToken: Joi.string().required(),
+        postId: Joi.number().integer(),
     })
 }
 
@@ -20,7 +20,7 @@ const add = {
     [Segments.BODY]: Joi.object({
         accessToken: Joi.string().required(),
         text: Joi.string().required(),
-        uuid: Joi.string().required(),
+        postId: Joi.number().integer(),
         refreshToken: Joi.string().required()
     })
 }
@@ -28,5 +28,5 @@ const add = {
 module.exports = {
     add,
     deletePost,
-    getPost
+    getByPostId
 }

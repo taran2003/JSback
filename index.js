@@ -7,7 +7,7 @@ const port = 3001
 
 const corsOptions = {
     origin: 'http://localhost:3000',
-    credentials:true,
+    credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
